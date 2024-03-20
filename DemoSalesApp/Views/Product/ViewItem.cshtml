@@ -1,0 +1,54 @@
+﻿@model DemoSalesApp.Models.Product
+
+<form method="get" asp-action="ViewItem">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Details of @Model.ProductName</h2>
+            <hr />
+        </div>
+        <div>
+            <img style="height: 250px; width: auto; align-content:center" src="@Model.ProductPicUrl" class="card-img-top" alt="@Model.ProductName" />
+        </div>
+        
+        <div class="mb-3">
+            <label asp-for="ProductName">Name: </label>
+            <input asp-for="ProductName" disabled class="form-control" />
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ProductPrice">Price: </label>
+            <input asp-for="ProductPrice" disabled class="form-control" />
+            <span asp-validation-for="ProductPrice" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ProductCondition">Condition: </label>
+            <input asp-for="ProductCondition" disabled class="form-control" />
+            <span asp-validation-for="ProductCondition" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ProductDescription">Description: </label>
+            <input asp-for="ProductDescription" disabled class="form-control" />
+            <span asp-validation-for="ProductDescription" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ProductUploadTime">Product UploadTime: </label>
+            <input asp-for="ProductUploadTime" disabled class="form-control" />
+            <span asp-validation-for="ProductUploadTime" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ProductSellerEmail">Seller E-mail: </label>
+            <input asp-for="ProductSellerEmail" disabled class="form-control" />
+            <span asp-validation-for="ProductSellerEmail" class="text-danger"></span>
+        </div>
+
+
+        <a asp-controller="Product" asp-action="Index" class="btn btn-secondary" style="width:150px">
+            Back to Products
+        </a>
+    </div>
+</form>

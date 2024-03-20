@@ -1,0 +1,46 @@
+﻿@model FilterManagerPortal.Models.Viewmodels.AdminViewModel
+
+<h1>List of Users</h1>
+
+@{
+    string selectedUserId = ViewBag.SelectedUserId ?? "";
+}
+
+<ul>
+    @foreach (var user in Model.fimaUsers)
+    {
+        <li>
+            <a href="@Url.Action("AdminPage", "Start", new { selectedUserId = user.Id })">@user.UserName</a>
+        </li>
+    }
+</ul>
+
+@if (Model.selectedUserId != null)
+{
+    if (Model.userFilters.ContainsKey(Model.selectedUserId.ToString()))
+    {
+        <h2>Filters of selected user:</h2>
+        <table class="table">
+    <thead>
+        <tr>
+            <th>Filter Name</th>
+            <th>Filter ID</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var filter in Model.userFilters[Model.selectedUserId.ToString()])
+        {
+            <tr>
+                <td>@filter.FilterName</td>
+                <td>@filter.FilterId</td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-controller="Filter" asp-action="EditFilter" asp-route-id="@filter.FilterId">Edit</a>
+                    <a class="btn btn-outline-warning" asp-controller="Filter" asp-action="DeleteFilterAdmin" asp-route-id="@filter.FilterId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    }
+}

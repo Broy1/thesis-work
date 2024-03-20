@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Filter>
+
+<h1>My Filters</h1>
+
+<a asp-controller="Filter" asp-action="CreateFilter" class="btn btn-primary text-end">
+  <i class="bi bi-file-earmark-plus">Add a new filter</i>
+</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Tags</th>
+            <th>Creator</th>
+            <th hidden></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FilterName</td>
+                <td>@item.FilterPrice</td>
+                <td>@item.Tags</td>
+                <td>@item.FimaUser</td>
+                <td hidden>@item.FilterId</td>
+                <td>
+                    <div>
+                        <a class="btn btn-outline-primary" asp-controller="Filter" asp-action="EditFilter" asp-route-id="@item.FilterId">Edit</a>
+                        <a class="btn btn-outline-warning" asp-controller="Filter" asp-action="DeleteFilter" asp-route-id="@item.FilterId">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

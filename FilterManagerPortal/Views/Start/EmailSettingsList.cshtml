@@ -1,0 +1,39 @@
+﻿@model FilterManagerPortal.Models.Viewmodels.EmailSettingsViewModel
+@{
+    ViewData["Title"] = "Email Settings";
+}
+
+<h1>Notification settings</h1>
+
+@using (Html.BeginForm("UpdateUser", "Filter", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <label>
+        @Html.CheckBoxFor(m => m.SendEmail, new { @class = "checkbox" })
+        Send E-mail to me when a product is available
+    </label>
+    @if (!Model.SendEmail)
+    {
+        @Html.HiddenFor(m => m.SendEmail, new { @value = "false" })
+    }
+    <br />
+    <label style="margin-bottom: 10px">
+        @Html.CheckBoxFor(m => m.SendEmailToSeller, new { @class = "checkbox" })
+        Send E-mail to the seller if I am interested
+    </label>
+    @if (!Model.SendEmail)
+    {
+        @Html.HiddenFor(m => m.SendEmailToSeller, new { @value = "false" })
+    }
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmailText, htmlAttributes: new { @class = "control-label" })
+        @Html.TextAreaFor(model => model.EmailText, new { @class = "form-control", @rows = "5" })
+        @Html.ValidationMessageFor(model => model.EmailText, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group" style="margin-top: 10px">
+        <input type="submit" value="Save Changes" class="btn btn-primary" />
+    </div>
+}
+

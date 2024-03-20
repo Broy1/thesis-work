@@ -1,0 +1,122 @@
+﻿@model SellProductViewModel
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Sell a product</h2>
+            <hr/>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.ProductName">Name: </label>
+            <input asp-for="Product.ProductName" class="form-control" />
+            <span asp-validation-for="Product.ProductName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.ProductPrice">Price: </label>
+            <input asp-for="Product.ProductPrice" class="form-control" />
+            <span asp-validation-for="Product.ProductPrice" class="text-danger"></span>
+
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.ProductCondition">Condition: </label>
+            <input asp-for="Product.ProductCondition" class="form-control" />
+            <span asp-validation-for="Product.ProductCondition" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.ProductDescription">Description: </label>
+            <input asp-for="Product.ProductDescription" class="form-control" />
+            <span asp-validation-for="Product.ProductDescription" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.ProductSellerEmail">ProductSellerEmail: </label>
+            <input asp-for="Product.ProductSellerEmail" class="form-control" />
+            <span asp-validation-for="Product.ProductSellerEmail" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.ProductPicUrl">Product Pic Url: </label>
+            <input asp-for="Product.ProductPicUrl" class="form-control" />
+            <span asp-validation-for="Product.ProductPicUrl" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select category tag</label>
+            <select asp-for="SelectedTagId" class="form-select" id="categoryTags" onchange="fillSubCategories()"></select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select a subcategory tag</label>
+            <select asp-for="SelectedSubTagId" class="form-select" id="subCategories" onchange="fillSpecTags()"></select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select a spectag</label>
+            <select asp-for="SelectedSpecTagId" class="form-select" id="specTags"></select>
+        </div>
+
+
+
+        <button type="submit" class="btn btn-primary" style="width:150px">Sell!</button>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-secondary" style="width:150px">
+            Back to home
+        </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <script>
+            var myModel = @Html.Raw(ViewBag.MyModel);
+            fillCategories();
+            fillSubCategories();
+            fillSpecTags();
+
+            function fillCategories() {
+                for (const [key, value] of Object.entries(myModel)) {
+                    if (key === "Tags") {
+                        value.forEach((tag) => {
+                            let option = document.createElement("option");
+                            option.text = tag.CategoryName;
+                            option.value = tag.CategoryTagId;
+                            document.getElementById('categoryTags').appendChild(option);
+                        });
+                    }
+                }
+            }
+
+            function fillSubCategories() {
+                const categoryId = document.getElementById('categoryTags').value;
+                document.getElementById("subCategories").innerHTML = "";
+                for (const [key, value] of Object.entries(myModel)) {
+                    if (key === "SubTags") {
+                        value.forEach((subTag) => {
+                            if(subTag.CategoryTagId == categoryId) {
+                            let option = document.createElement("option");
+                            option.text = subTag.SubCategoryTagName;
+                            option.value = subTag.SubCategoryTagId;
+                            document.getElementById('subCategories').appendChild(option);
+                            }
+                        });
+                    }
+                }
+                fillSpecTags();
+            }
+
+            function fillSpecTags() {
+                const subCategoryId = document.getElementById('subCategories').value;
+                document.getElementById("specTags").innerHTML = "";
+                for (const [key, value] of Object.entries(myModel)) {
+                    if (key === "SpecTags") {
+                        value.forEach((specTag) => {
+                            if (specTag.SubCategoryTagId == subCategoryId) {
+                                let option = document.createElement("option");
+                                option.text = specTag.SpecTagName;
+                                option.value = specTag.SpecTagId;
+                                document.getElementById('specTags').appendChild(option);
+                            }
+                        });
+                    }
+                }
+            }
+        </script>
+    }
+}

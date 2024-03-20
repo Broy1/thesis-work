@@ -1,0 +1,100 @@
+﻿@model FilterManagerPortal.Models.Viewmodels.FiltersViewModel
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Create a new filter</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Filter.FilterName">Name: </label>
+            <input asp-for="Filter.FilterName" class="form-control" />
+            <span asp-validation-for="Filter.FilterName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Filter.FilterPrice">Price: </label>
+            <input asp-for="Filter.FilterPrice" class="form-control" />
+            <span asp-validation-for="Filter.FilterPrice" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select category tag</label>
+            <select asp-for="SelectedTagId" class="form-select" id="categoryTags" onchange="fillSubCategories()"></select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select a subcategory tag</label>
+            <select asp-for="SelectedSubTagId" class="form-select" id="subCategories" onchange="fillSpecTags()"></select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select a spectag</label>
+            <select asp-for="SelectedSpecTagId" class="form-select" id="specTags"></select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+        <a asp-controller="Start" asp-action="Start" class="btn btn-secondary" style="width:150px">
+            Back to Filters
+        </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <script>
+            var myModel = @Html.Raw(ViewBag.MyModel);
+            fillCategories();
+            fillSubCategories();
+            fillSpecTags();
+
+            function fillCategories() {
+                for (const [key, value] of Object.entries(myModel)) {
+                    if (key === "Tags") {
+                        value.forEach((tag) => {
+                            let option = document.createElement("option");
+                            option.text = tag.CategoryName;
+                            option.value = tag.CategoryTagId;
+                            document.getElementById('categoryTags').appendChild(option);
+                        });
+                    }
+                }
+            }
+
+            function fillSubCategories() {
+                const categoryId = document.getElementById('categoryTags').value;
+                document.getElementById("subCategories").innerHTML = "";
+                for (const [key, value] of Object.entries(myModel)) {
+                    if (key === "SubTags") {
+                        value.forEach((subTag) => {
+                            if (subTag.CategoryTagId == categoryId) {
+                                let option = document.createElement("option");
+                                option.text = subTag.SubCategoryTagName;
+                                option.value = subTag.SubCategoryTagId;
+                                document.getElementById('subCategories').appendChild(option);
+                            }
+                        });
+                    }
+                }
+                fillSpecTags();
+            }
+
+            function fillSpecTags() {
+                const subCategoryId = document.getElementById('subCategories').value;
+                document.getElementById("specTags").innerHTML = "";
+                for (const [key, value] of Object.entries(myModel)) {
+                    if (key === "SpecTags") {
+                        value.forEach((specTag) => {
+                            if (specTag.SubCategoryTagId == subCategoryId) {
+                                let option = document.createElement("option");
+                                option.text = specTag.SpecTagName;
+                                option.value = specTag.SpecTagId;
+                                document.getElementById('specTags').appendChild(option);
+                            }
+                        });
+                    }
+                }
+            }
+        </script>
+    }
+}

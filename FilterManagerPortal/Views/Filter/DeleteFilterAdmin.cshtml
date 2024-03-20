@@ -1,0 +1,30 @@
+﻿@model FilterManagerPortal.Models.Filter
+
+<form method="post" asp-action="DeleteFilterAdmin">
+    <input asp-for="Tags" hidden />
+    <input asp-for="FilterId" hidden />
+    <div class="border p-3 mt-4">
+
+        <div class="row pb-2">
+            <h2 class="text-primary">Delete this filter?</h2>
+            <hr />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="FilterName">Name: </label>
+            <input asp-for="FilterName" disabled class="form-control" />
+            <span asp-validation-for="FilterName"  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="FilterPrice">Price: </label>
+            <input asp-for="FilterPrice" disabled class="form-control" />
+            <span asp-validation-for="FilterPrice"  class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:150px">Delete</button>
+        <a asp-controller="Start" asp-action="AdminPage" class="btn btn-secondary" style="width:150px">
+            Back to Admin page
+        </a>
+    </div>
+</form>
